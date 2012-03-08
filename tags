@@ -1,0 +1,122 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ALEXDIR	Makefile	/^ALEXDIR := $(HOME)\/progs\/alex$/;"	m
+BINDIR	Makefile	/^BINDIR := $(BUILD)$(BIT)$/;"	m
+BIT	Makefile	/^BIT := 64$/;"	m
+BUILD	Makefile	/^BUILD := release$/;"	m
+BUILDDIR	Makefile	/^BUILDDIR := .build_$(BUILD)$(BIT)$/;"	m
+BuildDescMat	Descriptors.h	/^void BuildDescMat(IplImage* xComp, \/\/ x gradient or flow component$/;"	f
+CV_NO_BACKWARD_COMPATIBILITY	Descriptors.h	9;"	d
+CV_NO_BACKWARD_COMPATIBILITY	FeatTrack.cpp	5;"	d	file:
+CXXFLAGS	Makefile	/^CXXFLAGS = -m$(BIT) -pipe -D __STDC_CONSTANT_MACROS -D STD=std -Wall $(CXXFLAGS_$(BUILD)) $(addprefix -I, $(INCLUDEDIRS))$/;"	m
+CXXFLAGS_debug	Makefile	/^CXXFLAGS_debug := -ggdb$/;"	m
+CXXFLAGS_release	Makefile	/^CXXFLAGS_release := -O3 -DNDEBUG -ggdb$/;"	m
+DESCRIPTORS_H_	Descriptors.h	2;"	d
+DescInfo	FeatTrack.h	/^typedef struct DescInfo$/;"	s
+DescInfo	FeatTrack.h	/^}DescInfo; $/;"	t	typeref:struct:DescInfo
+DescMat	FeatTrack.h	/^typedef struct DescMat$/;"	s
+DescMat	FeatTrack.h	/^}DescMat;$/;"	t	typeref:struct:DescMat
+FEATTRACK_H_	FeatTrack.h	2;"	d
+HofComp	Descriptors.h	/^void HofComp(IplImage* flow, DescMat* descMat, DescInfo descInfo)$/;"	f
+HogComp	Descriptors.h	/^void HogComp(IplImage* img, DescMat* descMat, DescInfo descInfo)$/;"	f
+INCLUDEDIRS	Makefile	/^INCLUDEDIRS := \\$/;"	m
+INITIALIZE_H_	Initialize.h	2;"	d
+InitDescInfo	Initialize.h	/^void InitDescInfo(DescInfo* descInfo, int nBins, int flag, int orientation, int size, int nxy_cell, int nt_cell)$/;"	f
+InitDescMat	Initialize.h	/^DescMat* InitDescMat(int height, int width, int nBins)$/;"	f
+InitSequence	Initialize.h	/^void InitSequence(char* video, Sequence& seq)$/;"	f
+InitTrackerInfo	Initialize.h	/^void InitTrackerInfo(TrackerInfo* tracker, int track_length, int init_gap)$/;"	f
+LDFLAGS	Makefile	/^LDFLAGS = -m$(BIT) -pipe -Wall $(LDFLAGS_$(BUILD))$/;"	m
+LDFLAGS_debug	Makefile	/^LDFLAGS_debug := -ggdb$/;"	m
+LDFLAGS_release	Makefile	/^LDFLAGS_release := -O3 -ggdb$/;"	m
+LDLIBS	Makefile	/^LDLIBS = $(addprefix -L, $(LIBDIRS)) $(addprefix -l, $(LIBS))$/;"	m
+LIBDIRS	Makefile	/^LIBDIRS := \\$/;"	m
+LIBS	Makefile	/^LIBS := \\$/;"	m
+MbhComp	Descriptors.h	/^void MbhComp(IplImage* flow, DescMat* descMatX, DescMat* descMatY, DescInfo descInfo)$/;"	f
+OpticalFlowTracker	Descriptors.h	/^void OpticalFlowTracker(IplImage* flow, \/\/ the optical field$/;"	f
+PI	FeatTrack.h	/^const float PI = 3.14159;$/;"	v
+PointDesc	FeatTrack.h	/^    PointDesc(const DescInfo& hogInfo, const DescInfo& hofInfo, const DescInfo& mbhInfo, const CvPoint2D32f& point_)$/;"	f	class:PointDesc
+PointDesc	FeatTrack.h	/^class PointDesc$/;"	c
+ReleDescMat	Initialize.h	/^void ReleDescMat( DescMat* descMat)$/;"	f
+Sequence	FeatTrack.h	/^typedef struct Sequence$/;"	s
+Sequence	FeatTrack.h	/^}Sequence;$/;"	t	typeref:struct:Sequence
+TARGETS	Makefile	/^TARGETS := FeatTrack #testFeaturesDetect $/;"	m
+Track	FeatTrack.h	/^    Track(int maxNPoints_)$/;"	f	class:Track
+Track	FeatTrack.h	/^class Track$/;"	c
+TrackerInfo	FeatTrack.h	/^typedef struct TrackerInfo$/;"	s
+TrackerInfo	FeatTrack.h	/^}TrackerInfo;$/;"	t	typeref:struct:TrackerInfo
+addPointDesc	FeatTrack.h	/^    void addPointDesc(const PointDesc& point)$/;"	f	class:Track
+blockHeight	FeatTrack.h	/^    int blockHeight; \/*size of the block for computing the descriptor*\/$/;"	m	struct:DescInfo
+blockWidth	FeatTrack.h	/^    int blockWidth;$/;"	m	struct:DescInfo
+cvDenseSample	Descriptors.h	/^void cvDenseSample(IplImage* grey, IplImage* eig, std::vector<CvPoint2D32f>& points,$/;"	f
+cvDenseSample	Descriptors.h	/^void cvDenseSample(IplImage* grey, IplImage* eig, std::vector<CvPoint2D32f>& points_in, $/;"	f
+desc	FeatTrack.h	/^    float* desc;$/;"	m	struct:DescMat
+descriptor	FeatTrack.cpp	/^  float * descriptor;$/;"	m	struct:__anon1	file:
+dim	FeatTrack.h	/^	int dim;$/;"	m	struct:DescInfo
+dummy1	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+dummy2	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+eig_pyramid	FeatTrack.cpp	/^IplImagePyramid grey_pyramid, prev_grey_pyramid, eig_pyramid;$/;"	v
+epsilon	FeatTrack.h	/^float epsilon = 0.05;$/;"	v
+flag	FeatTrack.h	/^    int flag; \/*0: don't compute and output the descriptor; 1: otherwise*\/$/;"	m	struct:DescInfo
+flagThre	FeatTrack.h	/^	int flagThre; \/* whether thresholding or not *\/$/;"	m	struct:DescInfo
+fscale	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+fscales	FeatTrack.cpp	/^float* fscales = 0; \/*float scale values*\/$/;"	v
+fullOrientation	FeatTrack.h	/^    int fullOrientation; \/*0: 180 degree; 1: 360 degree*\/$/;"	m	struct:DescInfo
+geom	FeatTrack.cpp	/^  } geom;$/;"	m	struct:__anon1	typeref:struct:__anon1::__anon2	file:
+getDesc	Descriptors.h	/^FastHogComputer::VectorType getDesc(DescMat* descMat, \/\/ input integral histogram$/;"	f
+getRect	Descriptors.h	/^void getRect(CvScalar* rect, \/\/ returned rectangle$/;"	f
+grey_pyramid	FeatTrack.cpp	/^IplImagePyramid grey_pyramid, prev_grey_pyramid, eig_pyramid;$/;"	v
+height	FeatTrack.h	/^	int height;$/;"	m	struct:Sequence
+height	FeatTrack.h	/^    int height;$/;"	m	struct:DescMat
+hof	FeatTrack.h	/^    std::vector<float> hof;$/;"	m	class:PointDesc
+hog	FeatTrack.h	/^    std::vector<float> hog;$/;"	m	class:PointDesc
+initGap	FeatTrack.h	/^    int initGap; \/*initial gap for feature detection*\/$/;"	m	struct:TrackerInfo
+isValid	Descriptors.h	/^int isValid(std::vector<CvPoint2D32f>& track, float& mean_x, float& mean_y, float& var_x, float& var_y, float& length) $/;"	f
+length	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+length	FeatTrack.h	/^	int length;$/;"	m	struct:Sequence
+main	FeatTrack.cpp	/^int main( int argc, char** argv )$/;"	f
+maxNPoints	FeatTrack.h	/^    int maxNPoints;$/;"	m	class:Track
+max_dis	FeatTrack.h	/^const float max_dis = 20;$/;"	v
+max_frameNum	FeatTrack.h	/^const int max_frameNum = 1000000;$/;"	v
+max_var	FeatTrack.h	/^const float max_var = 50;$/;"	v
+mbhX	FeatTrack.h	/^    std::vector<float> mbhX;$/;"	m	class:PointDesc
+mbhY	FeatTrack.h	/^    std::vector<float> mbhY;$/;"	m	class:PointDesc
+min_distance	FeatTrack.h	/^double min_distance = 5;$/;"	v
+min_flow	FeatTrack.h	/^const float min_flow = 0.4*0.4; \/\/ TBS $/;"	v
+min_var	FeatTrack.h	/^const float min_var = sqrt(3);$/;"	v
+mindist_merge	FeatTrack.h	/^const float mindist_merge = 2.0;$/;"	v
+mindist_remove	FeatTrack.h	/^const float mindist_remove = 3.0;$/;"	v
+nBins	FeatTrack.h	/^    int nBins; \/*number of bins for vector quantization*\/$/;"	m	struct:DescInfo
+nBins	FeatTrack.h	/^    int nBins;$/;"	m	struct:DescMat
+norm	FeatTrack.h	/^    int norm; \/*0: length normalization; 1: L1; 2: L2*\/$/;"	m	struct:TrackerInfo
+norm	FeatTrack.h	/^    int norm; \/*1: L1 normalization; 2: L2 normalization*\/$/;"	m	struct:DescInfo
+normalize_tag	FeatTrack.h	/^int normalize_tag = 0;  \/\/ 0: normalize L2 norm to 1; 1: normalize length to 1 TBS$/;"	v
+ntCells	FeatTrack.h	/^    int ntCells;$/;"	m	struct:DescInfo
+nxCells	FeatTrack.h	/^    int nxCells; \/*number of cells in x direction*\/$/;"	m	struct:DescInfo
+nyCells	FeatTrack.h	/^    int nyCells;$/;"	m	struct:DescInfo
+point	FeatTrack.h	/^    CvPoint2D32f point;$/;"	m	class:PointDesc
+pointDescs	FeatTrack.h	/^    std::list<PointDesc> pointDescs;$/;"	m	class:Track
+point_t	FeatTrack.cpp	/^} point_t;$/;"	t	typeref:struct:__anon1	file:
+prev_grey_pyramid	FeatTrack.cpp	/^IplImagePyramid grey_pyramid, prev_grey_pyramid, eig_pyramid;$/;"	v
+quality	FeatTrack.h	/^double quality = 0.001;$/;"	v
+scaleFactor	FeatTrack.h	/^float scaleFactor = sqrt(2);$/;"	v
+scale_flag	FeatTrack.h	/^int scale_flag = 1; \/\/ 0: singlescale; 1: multiscale TBS$/;"	v
+scale_num	FeatTrack.h	/^int scale_num = 8;  \/\/ For singlescale, set scale_num to 1u TBS$/;"	v
+scale_show	FeatTrack.h	/^int scale_show = 0; \/\/ show tracks at which scale TBS$/;"	v
+scale_stride	FeatTrack.h	/^const float scale_stride = sqrt(2);$/;"	v
+shot_margin	FeatTrack.h	/^const int shot_margin = 1;  \/\/ TBS$/;"	v
+shot_tag	FeatTrack.h	/^int shot_tag = 0; \/\/ 0: keep boundary tracks; 1: remove boundary tracks$/;"	v
+show_track	FeatTrack.cpp	/^int show_track = 0;   $/;"	v
+t	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+threshold	FeatTrack.h	/^    float threshold; \/*threshold for normalization*\/$/;"	m	struct:DescInfo
+trackLength	FeatTrack.h	/^    int trackLength; \/*length of the trajectory*\/$/;"	m	struct:TrackerInfo
+width	FeatTrack.h	/^	int width;$/;"	m	struct:Sequence
+width	FeatTrack.h	/^    int width;$/;"	m	struct:DescMat
+win_size	FeatTrack.h	/^int win_size = 10;$/;"	v
+x	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+xvar	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+y	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
+yvar	FeatTrack.cpp	/^    float x, y, t, xvar, yvar, length, fscale, dummy1, dummy2;$/;"	m	struct:__anon1::__anon2	file:
