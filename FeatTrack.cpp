@@ -2,7 +2,11 @@
 #include "Descriptors.h"
 #include "Initialize.h"
 
-#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+#include <sstream>
+#include <vector>
 
 //std namespaces
 //namespace std { using namespace __gnu_cxx; }
@@ -37,6 +41,21 @@ int usage() {
                 [<descriptor name: hog, hof, mbh, track[r] or all[r]> (default: all)]\n\
                 [<refresh_rate (default: 1)>]\n");
   return -1;
+}
+
+// Functions for splitting string by a separator.
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while(std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    return split(s, delim, elems);
 }
 
 int main( int argc, char** argv )
@@ -76,9 +95,21 @@ int main( int argc, char** argv )
     min_distance = atof(argv[4]);
   }
   if( argc > 6 ) {
-    start_frame = atoi(argv[5]);
-    end_frame = atoi(argv[6]);
+    // start_frame = atoi(argv[5]);
+    // end_frame = atoi(argv[6]);
+    std::vector<std::string> str_start_frames = split(argv[5], '_');
+    std::vector<std::string> str_end_frames = split(argv[6], '_');
+    int nr_start_frames = str_start_frames.size();
+    int nr_end_frames = str_end_frames.size();
+    assert(nr_start_frames == nr_end_frames);
+    int nr_frames = nr_start_frames;
+    int start_frames[nr_frames], end_frames[nr_frames];
+    for(int ii = 0; ii < nr_frames; ii++) {
+      start_frames[ii] = atoi(str_start_frames[ii].c_str());
+      end_frames[ii] = atoi(str_end_frames[ii].c_str());
+    }
   }
+  return 0;
   if( argc > 7 ) {
     desc_name = argv[7];
     if (desc_name == "allr") {
