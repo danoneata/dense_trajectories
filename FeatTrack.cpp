@@ -58,6 +58,18 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return split(s, delim, elems);
 }
 
+// Checks if the given frame xx is within one
+// of the given ranges (low[ii], high[ii]).
+int is_in_range(int xx, vector<int> low, vector<int> high) {
+  int len = low.size();
+  for (int ii = 0; ii < len; ii++) {
+    if ((low[ii] <= xx) && (xx <= high[ii])) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 int main( int argc, char** argv )
 {
   int return_raw_track = 0;
@@ -81,6 +93,8 @@ int main( int argc, char** argv )
   char* out_filename = argv[2];	
   int SW_STDOUT = 0;
   FILE * fo;
+  vector<int> start_frames;
+  vector<int> end_frames;
 
   if (strcmp(out_filename, "0") == 0)
     // Don't save the descriptor; pass it as STDOUT.
@@ -103,13 +117,17 @@ int main( int argc, char** argv )
     int nr_end_frames = str_end_frames.size();
     assert(nr_start_frames == nr_end_frames);
     int nr_frames = nr_start_frames;
-    int start_frames[nr_frames], end_frames[nr_frames];
     for(int ii = 0; ii < nr_frames; ii++) {
-      start_frames[ii] = atoi(str_start_frames[ii].c_str());
-      end_frames[ii] = atoi(str_end_frames[ii].c_str());
+      start_frames.push_back(atoi(str_start_frames[ii].c_str()));
+      end_frames.push_back(atoi(str_end_frames[ii].c_str()));
     }
   }
-  return 0;
+  else {
+    // If no arguments specified for start_frame and end_frame
+    // then use defaults.
+    start_frames.push_back(start_frame);
+    end_frames.push_back(end_frame);
+  }
   if( argc > 7 ) {
     desc_name = argv[7];
     if (desc_name == "allr") {
@@ -177,7 +195,8 @@ int main( int argc, char** argv )
 
     if( !frame )
       break;
-    if( frameNum >= start_frame && frameNum <= end_frame ) {
+    // if( frameNum >= start_frame && frameNum <= end_frame ) {
+    if (is_in_range(frameNum, start_frames, end_frames)) {
       if( !image ) {
         /*allocate all the buffers*/
         image = IplImageWrapper( cvGetSize(frame), 8, 3 );
@@ -226,8 +245,8 @@ int main( int argc, char** argv )
       cvCvtColor( image, grey, CV_BGR2GRAY );
       grey_pyramid.rebuild(grey);
 
-      //printf("frameNum: %d\n", frameNum);
-      //std::cerr << "frameNum: " << frameNum << std::endl;
+      // printf("frameNum: %d\n", frameNum);
+      // std::cerr << "frameNum: " << frameNum << std::endl;
       if( frameNum > 0 ) {
         init_counter++;
         for( int ixyScale = 0; ixyScale < scale_num; ++ixyScale ) {
