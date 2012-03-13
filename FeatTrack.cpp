@@ -2,6 +2,8 @@
 #include "Descriptors.h"
 #include "Initialize.h"
 
+#include <string.h>
+
 //std namespaces
 //namespace std { using namespace __gnu_cxx; }
 using std::string;
@@ -29,7 +31,7 @@ typedef struct {
 
 int usage() {
   fprintf(stderr,"usage:\n\
-      FeatTrack <video_file> <output_file>.siftgeo \n\
+      FeatTrack <video_file> <output_file>.siftgeo (if '0', print descriptor instead of saving it)\n\
                 [<track_length_in_frames> <stride_in_pixels> (default: 15 5)] \n\
                 [<beginning_frame> <end_frame> (default: begin and end of video)]\n\
                 [<descriptor name: hog, hof, mbh, track[r] or all[r]> (default: all)]\n\
@@ -58,6 +60,13 @@ int main( int argc, char** argv )
   int nt_cell = 3;
   Video capture(argv[1]);
   char* out_filename = argv[2];	
+  int SW_STDOUT = 0;
+  FILE * fo;
+
+  if (strcmp(out_filename, "0") == 0)
+    // Don't save the descriptor; pass it as STDOUT.
+    SW_STDOUT = 1;
+
   Sequence sequence;
   InitSequence(argv[1], sequence);
 
@@ -97,9 +106,11 @@ int main( int argc, char** argv )
   start_frame -= 1; /*for KTH, frameNum starts with 1*/
   end_frame -= 1;
 
-  // open the output file
-  FILE * fo = fopen (out_filename, "w");
-  assert (fo);
+  if (!SW_STDOUT) {
+    // open the output file
+    fo = fopen (out_filename, "w");
+    assert (fo);
+  }
 
   // total number of points tracked
   int nbpts = 0;
@@ -332,7 +343,8 @@ int main( int argc, char** argv )
                 nbpts++;
                 // print the track information
                 //printf("%d\t", frameNum);
-                //printf("%f\t%f\t", mean_x, mean_y);
+                if (SW_STDOUT)
+                  printf("%f\t%f\t%d\t", mean_x, mean_y, frameNum);
                 //printf("%f\t%f\t", var_x, var_y);
                 //printf("%f\t", length);
                 //printf("%f\t", fscales[ixyScale]);
@@ -353,7 +365,8 @@ int main( int argc, char** argv )
                 // print the track descriptor
                 if(desc_name == "all" || desc_name == "track")
                   for (int count = 0; count < tracker.trackLength; ++count)	{
-                    // printf("%f\t%f\t", trajectory[count].x,trajectory[count].y );
+                    if (SW_STDOUT)
+                      printf("%f\t%f\t", trajectory[count].x,trajectory[count].y );
                     desc.descriptor[idesc] = trajectory[count].x;
                     idesc++;
                     desc.descriptor[idesc] = trajectory[count].y;
@@ -375,7 +388,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->hog[m];
                     }
                     for( int m = 0; m < hogInfo.dim; m++ ) {
-                      //printf("%f\t", vec[m]/float(t_stride));
+                      if (SW_STDOUT)
+                        printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -396,7 +410,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->hof[m];
                     }
                     for( int m = 0; m < hofInfo.dim; m++ ) {
-                      //printf("%f\t", vec[m]/float(t_stride));
+                      if (SW_STDOUT)
+                        printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -417,7 +432,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->mbhX[m];
                     }
                     for( int m = 0; m < mbhInfo.dim; m++ ) {
-                      //printf("%f\t", vec[m]/float(t_stride));
+                      if (SW_STDOUT)
+                        printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -436,7 +452,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->mbhY[m];
                     }
                     for( int m = 0; m < mbhInfo.dim; m++ ) {
-                      //printf("%f\t", vec[m]/float(t_stride));
+                      if (SW_STDOUT)
+                        printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -444,11 +461,15 @@ int main( int argc, char** argv )
                 }
 
                 // write the descriptor to file
-                //printf("\n");
-                fwrite (&desc.geom , sizeof (desc.geom), 1, fo);
-                fwrite (&desc.dim, sizeof (desc.dim), 1, fo);
-                fwrite (desc.descriptor, sizeof(float), desc.dim, fo);
-
+                if (SW_STDOUT) {
+                  printf("\n");
+                  fflush(stdout);
+                }
+                else {
+                  fwrite (&desc.geom , sizeof (desc.geom), 1, fo);
+                  fwrite (&desc.dim, sizeof (desc.dim), 1, fo);
+                  fwrite (desc.descriptor, sizeof(float), desc.dim, fo);
+                }
                 free(desc.descriptor);
 
               }
@@ -508,9 +529,11 @@ int main( int argc, char** argv )
       break;
   }
 
-  // close the output file
-  fclose (fo);
-  fprintf (stderr, "Found %d tracks of dimension %d\n", nbpts, desc.dim);
+  if (!SW_STDOUT) {
+    // close the output file
+    fclose (fo);
+    fprintf (stderr, "Found %d tracks of dimension %d\n", nbpts, desc.dim);
+  }
 
 #ifdef _SHOW_TRACKS
   cvDestroyWindow("LkDemo");
