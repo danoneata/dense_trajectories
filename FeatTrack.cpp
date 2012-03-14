@@ -58,15 +58,21 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return split(s, delim, elems);
 }
 
-// Checks if the given frame xx is within one
+// Checks if the given frame is within one
 // of the given ranges (low[ii], high[ii]).
-int is_in_range(int xx, vector<int> low, vector<int> high) {
+int is_in_range(int elem, vector<int> low, vector<int> high) {
   int len = low.size();
   for (int ii = 0; ii < len; ii++) {
-    if ((low[ii] <= xx) && (xx <= high[ii])) {
+    if ((low[ii] <= elem) && (elem <= high[ii])) {
       return 1;
     }
   }
+  return 0;
+}
+
+int is_in_array(int elem, vector<int> vec) {
+  if (std::find(vec.begin(), vec.end(), elem) != vec.end())
+    return 1;
   return 0;
 }
 
@@ -197,8 +203,12 @@ int main( int argc, char** argv )
       break;
     // if( frameNum >= start_frame && frameNum <= end_frame ) {
     if (is_in_range(frameNum, start_frames, end_frames)) {
-      if( !image ) {
+      // if( !image ) {
+      // If the current frame is a beginning frame, re-initialize everything.
+      // TODO I don't think this is the best way to re-initialize everything.
+      if (is_in_array(frameNum, start_frames)) {  
         /*allocate all the buffers*/
+        xyScaleTracks.clear();
         image = IplImageWrapper( cvGetSize(frame), 8, 3 );
         image->origin = frame->origin;
         prev_image= IplImageWrapper( cvGetSize(frame), 8, 3 );
@@ -531,7 +541,7 @@ int main( int argc, char** argv )
           }
         }	
 
-        if( init_counter == tracker.initGap ) { /*initialize every initGap frames*/
+        if(init_counter == tracker.initGap) { /*initialize every initGap frames*/
           init_counter = 0;
           for (int ixyScale = 0; ixyScale < scale_num; ++ixyScale) {
             std::list<Track>& tracks = xyScaleTracks[ixyScale];			
@@ -565,6 +575,7 @@ int main( int argc, char** argv )
       cvCopy( frame, prev_image, 0 );
       cvCvtColor( prev_image, prev_grey, CV_BGR2GRAY );
       prev_grey_pyramid.rebuild(prev_grey);
+      
     }
 
 #ifdef _SHOW_TRACKS
