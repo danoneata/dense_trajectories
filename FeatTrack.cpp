@@ -98,13 +98,15 @@ int main( int argc, char** argv )
   Video capture(argv[1]);
   char* out_filename = argv[2];	
   int SW_STDOUT = 0;
+  float tt;
   FILE * fo;
   vector<int> start_frames;
   vector<int> end_frames;
 
-  if (strcmp(out_filename, "0") == 0)
+  if (strcmp(out_filename, "0") == 0) {
     // Don't save the descriptor; pass it as STDOUT.
     SW_STDOUT = 1;
+  }
 
   Sequence sequence;
   InitSequence(argv[1], sequence);
@@ -403,8 +405,8 @@ int main( int argc, char** argv )
                 nbpts++;
                 // print the track information
                 //printf("%d\t", frameNum);
-                if (SW_STDOUT)
-                  printf("%f\t%f\t%d\t", mean_x, mean_y, frameNum);
+                //if (SW_STDOUT)
+                //  printf("%f\t%f\t%d\t", mean_x, mean_y, frameNum);
                 //printf("%f\t%f\t", var_x, var_y);
                 //printf("%f\t", length);
                 //printf("%f\t", fscales[ixyScale]);
@@ -425,8 +427,8 @@ int main( int argc, char** argv )
                 // print the track descriptor
                 if(desc_name == "all" || desc_name == "track")
                   for (int count = 0; count < tracker.trackLength; ++count)	{
-                    if (SW_STDOUT)
-                      printf("%f\t%f\t", trajectory[count].x,trajectory[count].y );
+                    //if (SW_STDOUT)
+                    //  printf("%f\t%f\t", trajectory[count].x,trajectory[count].y );
                     desc.descriptor[idesc] = trajectory[count].x;
                     idesc++;
                     desc.descriptor[idesc] = trajectory[count].y;
@@ -448,8 +450,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->hog[m];
                     }
                     for( int m = 0; m < hogInfo.dim; m++ ) {
-                      if (SW_STDOUT)
-                        printf("%f\t", vec[m]/float(t_stride));
+                      //if (SW_STDOUT)
+                      //  printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -470,8 +472,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->hof[m];
                     }
                     for( int m = 0; m < hofInfo.dim; m++ ) {
-                      if (SW_STDOUT)
-                        printf("%f\t", vec[m]/float(t_stride));
+                      //if (SW_STDOUT)
+                      //  printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -492,8 +494,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->mbhX[m];
                     }
                     for( int m = 0; m < mbhInfo.dim; m++ ) {
-                      if (SW_STDOUT)
-                        printf("%f\t", vec[m]/float(t_stride));
+                      //if (SW_STDOUT)
+                      //  printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -512,8 +514,8 @@ int main( int argc, char** argv )
                         vec[m] += iDesc->mbhY[m];
                     }
                     for( int m = 0; m < mbhInfo.dim; m++ ) {
-                      if (SW_STDOUT)
-                        printf("%f\t", vec[m]/float(t_stride));
+                      //if (SW_STDOUT)
+                      //  printf("%f\t", vec[m]/float(t_stride));
                       desc.descriptor[idesc] = vec[m]/float(t_stride);
                       idesc++;
                     }
@@ -522,7 +524,11 @@ int main( int argc, char** argv )
 
                 // write the descriptor to file
                 if (SW_STDOUT) {
-                  printf("\n");
+                  tt = desc.geom.t;  // Implicit conversion to float.
+                  fwrite(&desc.geom.x, sizeof(float), 1, stdout);
+                  fwrite(&desc.geom.y, sizeof(float), 1, stdout);
+                  fwrite(&tt, sizeof(float), 1, stdout);
+                  fwrite(desc.descriptor, sizeof(float), desc.dim, stdout);
                   fflush(stdout);
                 }
                 else {
