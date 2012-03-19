@@ -126,15 +126,17 @@ int main( int argc, char** argv )
     assert(nr_start_frames == nr_end_frames);
     int nr_frames = nr_start_frames;
     for(int ii = 0; ii < nr_frames; ii++) {
-      start_frames.push_back(atoi(str_start_frames[ii].c_str()));
-      end_frames.push_back(atoi(str_end_frames[ii].c_str()));
+      // Substract 1 from both start frames and end frames to mantain
+      // compatibility with Adrien's dataset.py.
+      start_frames.push_back(atoi(str_start_frames[ii].c_str()) - 1);
+      end_frames.push_back(atoi(str_end_frames[ii].c_str()) - 1);
     }
   }
   else {
     // If no arguments specified for start_frame and end_frame
     // then use defaults.
-    start_frames.push_back(start_frame);
-    end_frames.push_back(end_frame);
+    start_frames.push_back(start_frame - 1);
+    end_frames.push_back(end_frame - 1);
   }
   if( argc > 7 ) {
     desc_name = argv[7];
@@ -160,8 +162,8 @@ int main( int argc, char** argv )
   InitDescInfo(&hofInfo, 9, 1, 1, patch_size, nxy_cell, nt_cell);
   InitDescInfo(&mbhInfo, 8, 0, 1, patch_size, nxy_cell, nt_cell);
 
-  start_frame -= 1; /*for KTH, frameNum starts with 1*/
-  end_frame -= 1;
+  // start_frame -= 1; /*for KTH, frameNum starts with 1*/
+  // end_frame -= 1;
 
   if (!SW_STDOUT) {
     // open the output file
